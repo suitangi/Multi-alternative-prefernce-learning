@@ -68,7 +68,6 @@ function saveData(filename, deletename, filedata) {
       expCookie.trialTimeline = window.trialTimeline;
       expCookie.trialNumber = window.trialNumber;
       expCookie.pointTotal = window.pointTotal;
-      expCookie.stimuliColors = window.stimuliColors;
       Cookies.set('exp', JSON.stringify(expCookie), {
         expires: 7
       });
@@ -480,120 +479,10 @@ function startTrial() {
   expCookie.trialTimeline = window.trialTimeline;
   expCookie.trialNumber = window.trialNumber;
   expCookie.pointTotal = window.pointTotal;
-  expCookie.stimuliColors = window.stimuliColors;
   Cookies.set('exp', JSON.stringify(expCookie), {
     expires: 7
   });
-  document.getElementById('noChoice').style = "display: none;";
-  if (window.trialNumber == window.expParam.trials) {
-    console.log("Done");
-    window.expParam.postquestions[0].question = "You have now finished all of the decision problems. The total number of points you earned is<br><strong>" + window.pointTotal + "</strong><br>You will now be asked to complete a few questions about yourself.<br>Thank you for your continued participation.";
-    document.getElementById('choicesDiv').style = 'display: none;';
-    document.getElementById('total').style = 'display: none;';
-    postQuestions(0);
-  } else if (window.expParam.break_trials.includes(window.trialNumber)) {
-    document.getElementById('choicesDiv').style = 'display: none;';
-    document.getElementById('total').style = 'display: none;';
-    $.confirm({
-      title: "Break",
-      content: "Take a break. Click next when you're ready to continue.",
-      type: 'blue',
-      boxWidth: '55%',
-      useBootstrap: false,
-      typeAnimated: true,
-      buttons: {
-        close: {
-          text: "Next",
-          btnClass: 'btn-blue',
-          action: function() {
-            document.getElementById('choicesDiv').style = '';
-            document.getElementById('total').style = '';
-            let choiceVal;
-            document.getElementById('countdownbar').style = "width: 100vw; background-color: rgba(255, 255, 255, 0);";
-            fixationCross();
-            window.choices = [];
-            for (var i = 0; i < window.expParam.choices; i++) {
-              choiceVal = roundBetter(window.expParam.options[window.trialTimeline[window.trialNumber][i] - 1].value(), 0);
-              window.choices.push(choiceVal);
-              document.getElementById('choice' + (i + 1)).firstElementChild.setAttribute('src', window.expParam.options[window.trialTimeline[window.trialNumber][i] - 1].img_src);
-            }
-            document.getElementById('choice1Text').innerText = "Q";
-            document.getElementById('choice2Text').innerText = "P";
-            for (var i = 0; i < document.getElementsByClassName('choiceImg').length; i++) {
-              document.getElementsByClassName('choiceImg')[i].style = "filter: hue-rotate(" + window.stimuliColors[window.trialTimeline[window.trialNumber][i] - 1] + "deg);";
-            }
-          }
-        }
-      }
-    });
-  } else if (window.expParam.attention_checks.includes(window.trialNumber)) {
-    document.getElementById('choicesDiv').style = 'display: none;';
-    document.getElementById('total').style = 'display: none;';
-    $.confirm({
-      title: "Quick Question",
-      content: "How many points did you receive in the last trial? <br><input type=\"number\" id=\"attentionInput\" min=\"-99\" max=\"99\">",
-      type: 'blue',
-      boxWidth: '55%',
-      useBootstrap: false,
-      typeAnimated: true,
-      buttons: {
-        close: {
-          text: "Next",
-          btnClass: 'btn-blue',
-          action: function() {
-            var textAns = this.$content.find('#attentionInput').val() && this.$content.find('#attentionInput').val() > -99 && this.$content.find('#attentionInput').val() < 99;
-            if (!textAns) {
-              $.alert({
-                title: 'Error',
-                boxWidth: '25%',
-                useBootstrap: false,
-                content: 'Please provide a valid answer',
-                type: 'red',
-              });
-              return false;
-            } else {
-              window.expData.attentionCheck.push({
-                answered: this.$content.find('#attentionInput').val(),
-                correct: window.expData.trialData[window.expData.trialData.length - 1].chosenVal,
-                accuracy: this.$content.find('#attentionInput').val() == window.expData.trialData[window.expData.trialData.length - 1].chosenVal
-              });
-              document.getElementById('choicesDiv').style = '';
-              document.getElementById('total').style = '';
-              let choiceVal;
-              document.getElementById('countdownbar').style = "width: 100vw; background-color: rgba(255, 255, 255, 0);";
-              fixationCross();
-              window.choices = [];
-              for (var i = 0; i < window.expParam.choices; i++) {
-                choiceVal = roundBetter(window.expParam.options[window.trialTimeline[window.trialNumber][i] - 1].value(), 0);
-                window.choices.push(choiceVal);
-                document.getElementById('choice' + (i + 1)).firstElementChild.setAttribute('src', window.expParam.options[window.trialTimeline[window.trialNumber][i] - 1].img_src);
-              }
-              document.getElementById('choice1Text').innerText = "Q";
-              document.getElementById('choice2Text').innerText = "P";
-              for (var i = 0; i < document.getElementsByClassName('choiceImg').length; i++) {
-                document.getElementsByClassName('choiceImg')[i].style = "filter: hue-rotate(" + window.stimuliColors[window.trialTimeline[window.trialNumber][i] - 1] + "deg);";
-              }
-            }
-          }
-        }
-      }
-    });
-  } else {
-    let choiceVal;
-    document.getElementById('countdownbar').style = "width: 100vw; background-color: rgba(255, 255, 255, 0);";
-    fixationCross();
-    window.choices = [];
-    for (var i = 0; i < window.expParam.choices; i++) {
-      choiceVal = roundBetter(window.expParam.options[window.trialTimeline[window.trialNumber][i] - 1].value(), 0);
-      window.choices.push(choiceVal);
-      document.getElementById('choice' + (i + 1)).firstElementChild.setAttribute('src', window.expParam.options[window.trialTimeline[window.trialNumber][i] - 1].img_src);
-    }
-    document.getElementById('choice1Text').innerText = "Q";
-    document.getElementById('choice2Text').innerText = "P";
-    for (var i = 0; i < document.getElementsByClassName('choiceImg').length; i++) {
-      document.getElementsByClassName('choiceImg')[i].style = "filter: hue-rotate(" + window.stimuliColors[window.trialTimeline[window.trialNumber][i] - 1] + "deg);";
-    }
-  }
+  
 }
 
 //displays the fixation cross
@@ -619,38 +508,7 @@ function trialChoice() {
 
 //displays the feedback
 function feedback(chosen) {
-  let trialObj = {};
-  window.buttonState = false;
-  trialObj.choiceValues = [...window.choices];
-  trialObj.trialNumber = window.trialNumber + 1;
-  trialObj.choices = [];
-  for (var i = 0; i < window.trialTimeline[window.trialNumber].length; i++) {
-    trialObj.choices.push(window.expParam.options[window.trialTimeline[window.trialNumber][i] - 1].name);
-  }
-  document.getElementById('countdownbar').style = "width: 100vw; background-color: rgba(255, 255, 255, 0);";
-  if (chosen != 0) {
-    console.log("Choice " + chosen + ' chosen.');
-    trialObj.chosen = trialObj.choices[chosen - 1];
-    trialObj.chosenVal = window.choices[chosen - 1];
-    trialObj.reactTime = window.endTime - window.startTime;
-    window.pointTotal += window.choices[chosen - 1];
-    window.pointTotal = roundBetter(window.pointTotal, 0);
-    document.getElementById('choice1Text').innerText = window.choices[0];
-    document.getElementById('choice2Text').innerText = window.choices[1];
-    document.getElementById('choice' + chosen).firstElementChild.style = "filter: hue-rotate(" + window.stimuliColors[window.trialTimeline[window.trialNumber][chosen - 1] - 1] + "deg); border-color: rgba(0, 0, 0, 1);"
-    document.getElementById('total').innerText = "Total: " + window.pointTotal;
-  } else {
-    console.log("No choice chosen.");
-    document.getElementById('noChoice').style = "";
-    trialObj.chosen = "None";
-    trialObj.chosenVal = -99;
-    trialObj.reactTime = -99;
-  }
-  window.expData.trialData.push(trialObj);
-  setTimeout(function() {
-    window.trialNumber += 1;
-    startTrial();
-  }, window.expParam.feedback_duration);
+
 }
 
 //start everthing
@@ -715,7 +573,6 @@ $(document).ready(function() {
       window.trialTimeline = expCookie.trialTimeline;
       window.trialNumber = expCookie.trialNumber;
       window.pointTotal = expCookie.pointTotal;
-      window.stimuliColors = expCookie.stimuliColors;
       window.expData.timesReconnected += 1;
 
       //set up button presses
@@ -798,30 +655,6 @@ $(document).ready(function() {
       window.trialNumber = 0;
       window.pointTotal = 0;
 
-      //set up color randomization
-      window.stimuliColors = [];
-      for (var i = 0; i < window.expParam.options.length; i++) {
-        window.stimuliColors.push(i * Math.floor(360 / window.expParam.options.length));
-      }
-      shuffle(window.stimuliColors);
-
-      //set up button presses
-      window.buttonState = false;
-      document.addEventListener('keyup', (e) => {
-        if (window.buttonState) {
-          if (e.code === "KeyQ") {
-            window.choice = 1;
-            window.clearTimeout(window.choiceTime);
-            window.endTime = new Date();
-            feedback(1);
-          } else if (e.code === "KeyP") {
-            window.choice = 2;
-            window.clearTimeout(window.choiceTime);
-            window.endTime = new Date();
-            feedback(2);
-          }
-        }
-      });
       window.addEventListener('beforeunload', function(e) {
         e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
         // Chrome requires returnValue to be set
@@ -835,45 +668,11 @@ $(document).ready(function() {
           expCookie.trialTimeline = window.trialTimeline;
           expCookie.trialNumber = window.trialNumber;
           expCookie.pointTotal = window.pointTotal;
-          expCookie.stimuliColors = window.stimuliColors;
           Cookies.set('exp', JSON.stringify(expCookie), {
             expires: 7
           });
         }
       });
-
-      function tlSetup(choiceNum, currentCombination) {
-        let copy;
-        if (choiceNum != window.expParam.choices) {
-          for (var i = choiceNum; i < window.expParam.options.length; i++) {
-            if (!currentCombination.includes(i + 1) && (currentCombination.length == 0 || (i + 1 > currentCombination[currentCombination.length - 1]))) {
-              copy = [...currentCombination];
-              copy.push(i + 1);
-              tlSetup(choiceNum + 1, copy);
-            }
-          }
-        } else {
-          window.trialTimeline.push(currentCombination);
-        }
-      }
-      tlSetup(0, []);
-      if (window.expParam.trials % window.trialTimeline.length != 0) {
-        console.log("ERROR: None zero remainder in trials / combinations");
-      } else {
-        let copy = [...window.trialTimeline],
-          trialTimes = window.expParam.trials / window.window.trialTimeline.length;
-        for (var i = 0; i < trialTimes - 1; i++) {
-          window.trialTimeline = window.trialTimeline.concat(copy);
-        }
-        shuffle(window.trialTimeline);
-        while (arrayRepeatCheck(window.trialTimeline, 3)) {
-          shuffle(window.trialTimeline);
-        }
-        console.log(window.trialTimeline);
-        for (var i = 0; i < trialTimes - 1; i++){
-          shuffle(window.trialTimeline[i]);
-        }
-      }
 
       preQuestions(0);
     }

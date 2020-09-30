@@ -9,24 +9,24 @@ window.expParam = {
       type: 'text',
       title: 'Welcome'
     }, {
-      question: "In this task, you will play a “gambling” game involving four different options. On each trial you will see two of the four options, represented by geometric figures. Here is an example:<br><img src='./img/screenshot.png'>",
+      question: "In this experiment, you will complete several simple counting tasks. Each task consists of counting the number of objects of a specific type  (either circles or squares) on the screen. For example, in the task below, there are many circles and squares on the screen. Your job is to count the number of circles and enter that number. Here is an example:<br><img src='./img/screenshot.png'>",
       type: 'text',
       title: 'Welcome'
     }, {
-      question: "Your task is to select the option you prefer out of the pair. You will press the \"P\" on the keyboard to select the right option and the \"Q\" on the keyboard to select the left option.<br><img src='./img/pqkeys.png'>",
-      type: 'text',
-      title: 'Task'
-    }, {
-      question: "Your aim is to collect points throughout the task. You will receive points based on your choice on each trial, which will adjust your total score either up or down. Your total score is displayed at the top right corner of the screen.<br><br><strong>Please note:</strong> The four options offer different amounts of points. The options also vary in the range of possible points they provide. In each pair, there is always one option that provides a wider range of possible points than the other option. It is also possible to receive negative points, which subtract from your total score. You have 10 seconds to make your choice, and the bottom red bar indicates how much time you have left.",
+      question: "Each trial is made up of 1 or more tasks for you to complete. At the start of each trial, you will be informed of the type of object that you will count and the number of tasks you will complete on the trial, as shown below. <br><img src='./img/pqkeys.png'>",
       type: 'text',
       title: 'Instructions'
     }, {
-      question: "At the start of the task, you won’t know the range of possible points that the options provide. You will have the opportunity to learn this over the trials. After you make a choice, you will see the points you earned plus the points you could have earned from the other option that you didn’t select.",
+      question: "After you complete all of the tasks on a trial, you will report how much you enjoyed the tasks by using the seven-point scale as shown below. <br><img src='./img/7point.png'>",
       type: 'text',
       title: 'Instructions'
     }, {
-      question: "To get started, place your right index finger on the \"P\" key and your left index finger on the \"Q\" key. Press either key to begin.",
-      type: 'specialKey',
+      question: "You will receive feedback about your performance on the trial after you provide your rating of enjoyment.<br><br>You will earn 5 points if you correctly count the number of objects on all tasks within a trial. If you make a mistake on any of the tasks within a trial, you will earn 0 point.<br><br>After you complete the experiment, you can earn bonus payment on top of the $1 base payment. The amount of bonus will be determined by the total amount of points you earn throughout the entire experiment as presented below:<br><br>495~550 points: $0.10<br>551~625 points: $0.25<br>626~660 points: $0.50",
+      type: 'text',
+      title: 'Instructions'
+    }, {
+      question: "There are total 4 blocks of 33 trials for you to complete.<br><br>To begin, you will go through two practice trials. Your performance in the practice trials will not affect your total points.",
+      type: 'text',
       title: 'Instructions'
     }
 
@@ -82,43 +82,10 @@ window.expParam = {
   }],
   confirm_popup: {
     title: "Submission Complete!",
-    content: "Thank you for completing the experiment!<br><br><br>Your confirmation code is: <strong>7y3Wef</strong><br><br><br>Please return to the Mechanical Turk page and enter your code.<br><br><br>You need to go back to the original Mechanical Turk HIT for this step."
+    content: "Thank you for completing the experiment!<br><br><br>Your confirmation code is: <strong></strong><br><br><br>Please return to the Mechanical Turk page and enter your code.<br><br><br>You need to go back to the original Mechanical Turk HIT for this step."
   },
 
-  choices: 2,
-  options: [{
-      img_src: "./img/choiceA.png",
-      name: "A",
-      value: function() {
-        return 3;
-      },
-      read: "3"
-    },
-    {
-      img_src: "./img/choiceB.png",
-      name: "B",
-      value: function() {
-        return normal(3, 3, -6, 12);
-      },
-      read: "normal(3, 3) [-6:12]"
-    },
-    {
-      img_src: "./img/choiceC.png",
-      name: "C",
-      value: function() {
-        return normal(6, 6, -12, 24);
-      },
-      read: "normal (6, 6) [-12:24]"
-    },
-    {
-      img_src: "./img/choiceD.png",
-      name: "D",
-      value: function() {
-        return normal(6, 14, -36, 48);
-      },
-      read: "normal (6, 14) [-36:48]"
-    }
-  ],
+  blocks: 16,
   trials: 90,
   break_trials: [30, 60],
   attention_checks: [20, 80],
