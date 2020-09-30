@@ -472,43 +472,36 @@ function normal(mean, std, left_trunc, right_trunc) {
 
 // starts a trial
 function startTrial() {
-  partialSave(window.unID + '_partial.csv', dataToCSV());
-  let expCookie = {};
-  expCookie.unid = window.unID;
-  expCookie.expData = window.expData;
-  expCookie.trialTimeline = window.trialTimeline;
-  expCookie.trialNumber = window.trialNumber;
-  expCookie.pointTotal = window.pointTotal;
-  Cookies.set('exp', JSON.stringify(expCookie), {
-    expires: 7
-  });
-  
+  console.log("Trial Begin")
+  fixationCross();
 }
 
 //displays the fixation cross
 function fixationCross() {
   document.getElementById('fixCross').style = "";
+  console.log("Trial Fixation")
   let randomTime = Math.floor(Math.random() * (window.expParam.fixation_duration[1] - window.expParam.fixation_duration[0])) + window.expParam.fixation_duration[0];
   setTimeout(function() {
     document.getElementById('fixCross').style = "display: none;";
-    trialChoice();
+    trial();
   }, randomTime);
 }
 
 //displays the choices
-function trialChoice() {
+function trial() {
   console.log("Trial Nubmer: " + window.trialNumber);
+  document.getElementById('instruct').style = "";
+  let randomTime = Math.floor(Math.random() * (window.expParam.fixation_duration[1] - window.expParam.fixation_duration[0])) + window.expParam.fixation_duration[0];
+  setTimeout(function() {
+    document.getElementById('instruct').style = "display: none;";
+  }, randomTime);
   window.startTime = new Date();
-  document.getElementById('countdownbar').style = "width: 0; transition: width " + window.expParam.choice_duration/1000 + "s;"
-  window.buttonState = true;
-  window.choiceTime = setTimeout(function() {
-    feedback(0);
-  }, window.expParam.choice_duration);
 }
 
 //displays the feedback
-function feedback(chosen) {
-
+function feedback() {
+  let number = document.getElementById('quantity').value;
+  console.log("Feedback received:" + number);
 }
 
 //start everthing

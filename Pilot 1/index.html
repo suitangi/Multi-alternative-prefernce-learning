@@ -25,14 +25,22 @@
         <div id="stimuli" class="stimuli">
           <img class="choiceImg" hue="" src="./img/choiceA.png" style="">
         </div>
-        <div id=
+        <div id="myInput">
+          <span>Number of <span class="shapeType">circles</span>:</span>
+          <input type="number" id="quantity" min="0" max="48">
+          <button id="submitButton" onclick="feedback()">Submit</button>
+        </div>
       </div>
-    </div>
-    <div id="fixCross" style="">
-      <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">+</div>
-    </div>
+      <div id="fixCross" style="">
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">+</div>
+      </div>
+      <div id="instruct" style="display:none">
+        <div style="position: absolute; font-size: 40px; top: 40%; left: 50%; transform: translate(-50%, -50%);">
+          Count the number of <strong><span class="shapeType">circles</span></strong> out of <strong>48</strong> objects for <strong>1</strong> time.
+        </div>
+      </div>
 
-  </div>
+    </div>
 </body>
 
 </html>
